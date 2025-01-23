@@ -5,7 +5,11 @@ const cors = require('cors');
 require('dotenv').config();
 require('events').EventEmitter.defaultMaxListeners = 20;
 
-const registerUser = require('./routes/user/user.routes');
+const userRoutes = require('./routes/user/user.routes');
+const candidateRoutes = require('./routes/candidate/candidate.routes');
+const electionRoutes = require('./routes/election/election.routes');
+const voteRoutes = require('./routes/vote/vote.routes');
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,7 +25,11 @@ app.get('/reset-password/:token', (req, res) => {
 });
 
 // app Routes 
-app.use("/api/users",registerUser);
+app.use("/api/users",userRoutes);
+app.use('/api/candidates',candidateRoutes);
+app.use('/api/elections',electionRoutes);
+app.use('/api/votes',voteRoutes);
+
 
 app.listen(PORT,() => {
     console.info(`Backend Runing on the Port ${PORT}`);
