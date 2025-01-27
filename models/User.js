@@ -29,8 +29,7 @@ const userSchema = new mongoose.Schema({
     },
 
     NIC : {
-        type : String,
-        unique:true
+        type : String
     },
 
     Province : {

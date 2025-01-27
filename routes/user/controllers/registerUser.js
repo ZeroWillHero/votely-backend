@@ -2,10 +2,13 @@ const User = require("../../../models/User");
 const bcrypt = require("bcrypt");
 
 const registerUser = async (req, res) => {
-    const {email,password} = req.body;
+    const {email,password,voterId} = req.body;
 
     try {
         // Check if user already exists
+        if (!voterId) {
+            return res.status(400).json({ message: "Voter ID is required" });
+        }
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
@@ -18,7 +21,8 @@ const registerUser = async (req, res) => {
         // Create a new user
         const newUser = new User({
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            NIC : voterId
         });
 
         // Save the user to the database
@@ -27,7 +31,7 @@ const registerUser = async (req, res) => {
         // Send a response
         res.status(201).json({ message: "User registered successfully",user: newUser });
     } catch (error) {
-        res.status(500).json({ message: "Server error" });
+        res.status(500).json({ message: "Server error " + error });
     }
 }
 
